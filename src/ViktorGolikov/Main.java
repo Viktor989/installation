@@ -6,67 +6,45 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         StringBuilder tmp = new StringBuilder();
         String file = "Каталог ";
         String generated = " успешно создан \n";
 
-        File temp = new File("c://Games", "temp");
-        if (temp.mkdir()) {
-            tmp.append(file + temp + generated);
-        }
-        File src = new File("c://Games", "src");
-        if (src.mkdir()) {
-            tmp.append(file + src + generated);
-        }
-        File res = new File("c://Games", "res");
-        if (res.mkdir()) {
-            tmp.append(file + res + generated);
-        }
-        File savegames = new File("c://Games", "savegames");
-        if (savegames.mkdir()) {
-            tmp.append(file + savegames + generated);
-        }
-        File main = new File("c://Games/src", "main");
-        if (main.mkdir()) {
-            tmp.append(file + main + generated);
-        }
-        File test = new File("c://Games/src", "test");
-        if (test.mkdir()) {
-            tmp.append(file + test + generated);
-        }
-        File drawables = new File("c://Games/res", "drawables");
-        if (drawables.mkdir()) {
-            tmp.append(file + drawables + generated);
-        }
-        File vectors = new File("c://Games/res", "vectors");
-        if (vectors.mkdir()) {
-            tmp.append(file + vectors + generated);
-        }
-        File icons = new File("c://Games/res", "icons");
-        if (icons.mkdir()) {
-            tmp.append(file + icons + generated);
-        }
-        File mainJava = new File("c://Games/src/main", "Main.java");
-        if (mainJava.createNewFile()) {
-            tmp.append("Файл    " + mainJava + generated);
-        }
-        File utilsJava = new File("c://Games/src/main", "Utils.java");
-        if (utilsJava.createNewFile()) {
-            tmp.append("Файл    " + utilsJava + generated);
-        }
-        File tempTxt = new File("c://Games/temp", "temp.txt");
-        if (tempTxt.createNewFile()) {
-            try (FileOutputStream mess = new FileOutputStream("c://Games/temp/temp.txt")) {
-                tmp.append("Файл    " + tempTxt + generated);
-                tmp.append("Лог установки успешно записан");
-                String tmpString = tmp.toString();
-                byte[] bytes = tmpString.getBytes(StandardCharsets.UTF_8);
-                mess.write(bytes);
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
+        File[] temps = new File[9];
+        temps[0] = new File("c://Games", "temp");
+        temps[1] = new File("c://Games", "src");
+        temps[2] = new File("c://Games", "res");
+        temps[3] = new File("c://Games", "savegames");
+        temps[4] = new File("c://Games/src", "main");
+        temps[5] = new File("c://Games/src", "test");
+        temps[6] = new File("c://Games/res", "drawables");
+        temps[7] = new File("c://Games/res", "vectors");
+        temps[8] = new File("c://Games/res", "icons");
+
+        for (int i = 0; i < temps.length; i++) {
+            if (temps[i].mkdir()) {
+                tmp.append(file + temps[i] + generated);
             }
+        }
+        
+        File[] mainJava = new File[3];
+        mainJava[0] = new File("c://Games/src/main", "Main.java");
+        mainJava[1] = new File("c://Games/src/main", "Utils.java");
+        mainJava[2] = new File("c://Games/temp", "temp.txt");
+        for (int i = 0; i < mainJava.length; i++) {
+            if (mainJava[i].createNewFile()) {
+                tmp.append("Файл    " + mainJava[i] + generated);
+            }
+        }
+        try (FileOutputStream mess = new FileOutputStream("c://Games/temp/temp.txt")) {
+            tmp.append("Лог установки успешно записан");
+            String tmpString = tmp.toString();
+            byte[] bytes = tmpString.getBytes(StandardCharsets.UTF_8);
+            mess.write(bytes);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 }
+
